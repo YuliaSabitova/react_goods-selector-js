@@ -16,22 +16,24 @@ export const goods = [
 ];
 
 export const App = () => {
-  const [selected, setSelected] = useState('Jam');
-  const handleClear = ()=>{
+  const [selectedGood, setSelected] = useState('Jam');
+  const handleClear = () => {
     setSelected('');
   };
-  const handleSelect = (good)=>{
+
+  const handleSelect = good => {
     setSelected(good);
   };
-  const handleRemove = ()=>{
+
+  const handleRemove = () => {
     setSelected('');
   };
 
   return (
     <main className="section container">
       <h1 className="title is-flex is-align-items-center">
-        {selected ? `${selected} is selected` : 'No goods selected'}
-        {selected && (
+        {selectedGood ? `${selectedGood} is selected` : 'No goods selected'}
+        {selectedGood && (
           <button
             onClick={handleClear}
             data-cy="ClearButton"
@@ -47,29 +49,45 @@ export const App = () => {
             <tr
               data-cy="Good"
               key={good}
-              className={selected === good ? 'has-background-success-light': ''}
+              className={
+                selectedGood === good ? 'has-background-success-light' : ''
+              }
             >
-              <td>
-                {selected === good ? (
-                <button
-                    onClick={handleRemove}
-                    data-cy="RemoveButton"
-                    type="button"
-                    className="button is-info"
-                  >
-                    -
-                  </button>
-                  ):(
-                  <button
-                    onClick={() => handleSelect(good)}
-                    data-cy="AddButton"
-                    type="button"
-                    className="button"
-                  >
-                    +
-                  </button>
-                )}
-              </td>
+             <td>
+  {selectedGood === '' && (
+    <button
+      onClick={() => handleSelect(good)}
+      data-cy="AddButton"
+      type="button"
+      className="button"
+    >
+      +
+    </button>
+  )}
+    {selectedGood === good && (
+      <button
+        onClick={handleRemove}
+        data-cy="RemoveButton"
+        type="button"
+        className="button is-info"
+      >
+        -
+      </button>
+    )}
+
+    {selectedGood !== '' && good !== selectedGood && (
+       <button
+      onClick={() => handleSelect(good)}
+      data-cy="AddButton"
+      type="button"
+      className="button"
+    >
+      +
+    </button>
+    )}
+
+
+</td>
 
               <td data-cy="GoodTitle" className="is-vcentered">
                 {good}
